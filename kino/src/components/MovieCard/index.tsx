@@ -1,7 +1,17 @@
-import { useEffect, useRef, useState } from "react";
-import { IMovie } from "./movie.interface";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
+
+interface Movie {
+  id: number;
+  name: string;
+  rating: number;
+  poster: {
+    url: string | null;
+    previewUrl: string | null;
+  };
+  year: number;
+  persons: unknown[];
+}
 
 const Card = styled.div`
   display: flex;
@@ -19,7 +29,7 @@ const MovieItem = styled.div`
 
 const MovieImage = styled.img`
   width: 100%;
-  height: 200px;
+  height: 90%;
   object-fit: cover;
   border-radius: 5px;
 `;
@@ -33,53 +43,51 @@ const MovieTitle = styled.h3`
   margin-bottom: 5px;
 `;
 
-const MovieRating = styled.p`
-  font-size: 14px;
-  color: #888;
-`;
+// const MovieRating = styled.p`
+//   font-size: 14px;
+//   color: #888;
+// `;
 
-const MovieDate = styled.p`
-  font-size: 14px;
-  color: #888;
-`;
+// const MovieDate = styled.p`
+//   font-size: 14px;
+//   color: #888;
+// `;
 
-const MovieCard = () => {
-  const [movies, setMovies] = useState<IMovie[]>([]);
-  const [currentId, setCurrentId] = useState<string | null>(null);
-  const observerRef = useRef<IntersectionObserver | null>(null);
+const MovieCard: React.FC<{ person: unknown[] }> = () => {
+    const [movies, setMovies] = useState<Movie[]>([]);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const fetchMovies = async () => {
+  const api_key = 'G10HV4T-ATN4EVY-M2A74H4-N9DR5HJ';
+  const api_url = 'https://api.kinopoisk.dev/v1.4/movie/random?notNullFields=poster.url&type=movie&status=filming';
+
+  async function getMovie(url: string | URL | Request) {
     try {
-      const url = `https://api.kinopoisk.dev/v1.4/movie/random?notNullFields=id,name,poster,rating,releaseYear&id=${currentId}&type=movie&status=completed`;
-      const response = await axios.get(url);
-      setMovies((prev) => [...prev, ...response.data]);
-      setCurrentId(response.data[0].id);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchMovies();
-  }, [currentId]);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (container) {
-      observerRef.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          setCurrentId((prevId) => (prevId ? prevId : ""));
+      const resp = await fetch(url, {
+        headers: {
+          "Content-Type": 'application/json',
+          "X-API-KEY": api_key
         }
       });
-      observerRef.current.observe(container);
-    }
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
+  
+      if (!resp.ok) {
+        throw new Error(`Failed to fetch movie data: ${resp.statusText}`);
       }
-    };
+  
+      const data = await resp.json();
+  
+      // Обернуть данные в массив, если они не являются массивом
+      const moviesData = Array.isArray(data) ? data : [data];
+  
+      setMovies(moviesData);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching movie data:", error);
+    }
+  }
+  
+  
+  useEffect(() => {
+    getMovie(api_url);
   }, []);
 
   return (
@@ -87,11 +95,10 @@ const MovieCard = () => {
       <Card>
         {movies.map((movie, index) => (
           <MovieItem key={index}>
-            <MovieImage src={movie.poster} alt={movie.name} />
+            <MovieImage src={movie.poster.url || 'placeholder.jpg'} alt={movie.name} />            
             <MovieInfo>
               <MovieTitle>{movie.name}</MovieTitle>
-              <MovieRating>Rating: {movie.rating}</MovieRating>
-              <MovieDate>Release Year: {movie.releaseYear}</MovieDate>
+              {/* <MovieRating>Rating:{movie.rating}</MovieRating> */}
             </MovieInfo>
           </MovieItem>
         ))}

@@ -1,11 +1,13 @@
-import { ReactNode } from "react";
 
-export interface IMovie {
-    releaseYear: ReactNode;
-    poster: string | undefined;
+export interface Movie {
+    id: number;
     name: string;
-    image: string; 
     rating: number;
-    date: string | Date;
-  }
-  
+    poster: {
+      url: string | null;
+      previewUrl: string | null;
+    };
+    year: number;
+    persons: unknown[];
+    lists: string[];
+}
