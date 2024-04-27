@@ -29,9 +29,9 @@ const MovieInfo = styled.div`
 `;
 
 const MovieTitle = styled.h2<{size?: number}>`
-  font-size: ${({size}) => ( size ? '18px' : '22px' )};
-  font-size: 24px;
-  margin-bottom: 10px;
+    font-size: ${({size}) => ( size ? '18px' : '22px' )};
+    font-size: 24px;
+    margin-bottom: 10px;
 `;
 const MovieDescription = styled.p`
     font-size: 18px;
@@ -44,7 +44,7 @@ const MovieId: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [movie, setMovie] = useState<Movie | null>(null);
   
-    const api_key = "FRX0BNV-6WDMY6Y-GBK5ZBN-V61MRSJ";
+    const api_key = "KD2SMBW-B7X4PA6-PHDCS7F-28YD92R";
     const api_url = `https://api.kinopoisk.dev/v1.4/movie/${id}`;
   
     useEffect(() => {

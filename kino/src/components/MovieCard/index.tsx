@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import {Movie} from "./movie.interface";
-
+import { useInView } from "react-intersection-observer";
 const Card = styled.ul`
   display: flex;
   flex-wrap: wrap;
@@ -65,8 +65,13 @@ const MovieCard: React.FC = () => {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const navigate = useNavigate()
 
-    
-    const api_key = "FRX0BNV-6WDMY6Y-GBK5ZBN-V61MRSJ";
+    const [loading, setLoading] = useState(false);
+    const { ref, inView } = useInView({
+      threshold: 1.0,
+      rootMargin: "100px",
+    });
+
+    const api_key = "KD2SMBW-B7X4PA6-PHDCS7F-28YD92R";
     const api_url = (page: number) =>
         `https://api.kinopoisk.dev/v1.4/movie?page=${page}&limit=3&selectFields=id&selectFields=name&selectFields=enName&selectFields=alternativeName&selectFields=names&selectFields=description&selectFields=shortDescription&selectFields=slogan&selectFields=year&selectFields=releaseYears&selectFields=rating&selectFields=ratingMpaa&selectFields=ageRating&selectFields=movieLength&selectFields=poster&selectFields=videos&selectFields=top250&notNullFields=description&notNullFields=rating.kp&notNullFields=rating.filmCritics&notNullFields=rating.await&notNullFields=poster.url&sortField=id&sortType=1&type=movie&status=announced&status=completed&status=filming&status=post-production&status=pre-production`;
     async function getMovies(url: string | URL | Request) {
@@ -90,16 +95,21 @@ const MovieCard: React.FC = () => {
     }
   
     useEffect(() => {
-      getMovies(api_url(currentPage));
+        getMovies(api_url(currentPage));
     }, [currentPage]);
   
     const handlePageChange = (page: number) => {
-      setCurrentPage(page);
+        setCurrentPage(page);
     };
     const handleMovieClick = (id:number) => {
         navigate(`/movie/${id}`)
     }
-
+    useEffect(() => {
+        if (inView && !loading) {
+          setLoading(true);
+          setCurrentPage((prev) => prev + 1);
+        }
+      }, [inView, loading]);
   return (
     <div ref={containerRef}>
         <PaginationWrapper>
@@ -126,6 +136,7 @@ const MovieCard: React.FC = () => {
           </MovieItem>
         ))}
       </Card>
+      <div ref={ref}></div>
     </div>
   );
 };

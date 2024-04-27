@@ -3,7 +3,6 @@ import {useState} from "react";
 import sun from "../../assets/sun.svg";
 import moon from "../../assets/moon.svg";
 
-
 const SwitchThemeStyled = styled.button`
   width: 100px;
   height: 40px;
@@ -38,7 +37,7 @@ const SwitchTheme = () => {
     };
     return ( 
         <SwitchThemeStyled onClick={handleClick} style={{ backgroundImage: `url(${backgroundImage})` }}>
-            {theme === "light"}
+            {theme === "dark"}
         </SwitchThemeStyled>
      );
 }
