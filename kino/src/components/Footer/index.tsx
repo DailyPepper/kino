@@ -5,14 +5,12 @@ const Basement = styled.footer`
   height: 100px;
   width: 100vw;
   left: 0;
-  bottom: 0; 
+  position: absolute;
 `;
 
 const Footer = () => {
   return (
-    <>
       <Basement />
-    </>
   );
 };
 
