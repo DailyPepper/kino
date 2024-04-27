@@ -4,13 +4,17 @@ import MovieCard from "../../components/MovieCard";
 const Section = styled.section`
     padding: 90px 35px 90px 35px;
 `
+const HeadText = styled.h2`
+    display: flex;
+    justify-content: center;
+`
 const Home = () => {
     return ( 
         <>
             <Section>
-                <h2>
+                <HeadText>
                     Лучшие фильмы
-                </h2>
+                </HeadText>
                     <MovieCard/>
             </Section>
         </>

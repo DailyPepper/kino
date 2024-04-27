@@ -2,24 +2,25 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import {Movie} from "./movie.interface";
 
-const Card = styled.div`
+const Card = styled.ul`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  padding-right: 60px;
 `;
 
-const MovieItem = styled.div`
+const MovieItem = styled.li`
   width: 23%;
   margin-bottom: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  list-style-type: none;
 `;
 
 const MovieImage = styled.img`
-  width: 100%;
-  height: 90%;
-  object-fit: cover;
-  border-radius: 5px;
+    width: 100%;
+    height: 85%;
+    border-radius: 5px;
 `;
 
 const MovieInfo = styled.div`
@@ -34,7 +35,7 @@ const MovieTitle = styled.h3`
 const PaginationWrapper = styled.div`
     display: flex;
     margin-top: 20px;
-    padding: 10px 0px 20px 0px;
+    padding: 10px 0px 20px 35px;
 `;
 
 const PaginationButton = styled.button<{ active?: boolean }>`
@@ -55,7 +56,7 @@ const MovieCard: React.FC = () => {
     const [totalPages, setTotalPages] = useState(0);
     const containerRef = useRef<HTMLDivElement | null>(null);
   
-    const api_key = "G10HV4T-ATN4EVY-M2A74H4-N9DR5HJ";
+    const api_key = "CZRR6PC-ZA9MW48-Q6F6JXF-ZD8KGT9";
     const api_url = (page: number) =>
       `https://api.kinopoisk.dev/v1.4/movie?page=${page}&limit=4&selectFields=id&selectFields=name&selectFields=enName&selectFields=alternativeName&selectFields=names&selectFields=description&selectFields=type&selectFields=typeNumber&selectFields=status&selectFields=rating&selectFields=poster&selectFields=top10&notNullFields=rating.kp&notNullFields=poster.url&sortField=alternativeName&sortType=1&type=movie&status=announced`;
   
