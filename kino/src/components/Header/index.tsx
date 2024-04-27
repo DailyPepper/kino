@@ -19,7 +19,7 @@ const Header = () => {
             <h1>
                 Kino
             </h1>
-            <SwitchTheme/>
+                <SwitchTheme/>
         </Heading>
         </>
      );
