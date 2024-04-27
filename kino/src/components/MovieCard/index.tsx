@@ -11,7 +11,7 @@ const Card = styled.ul`
 `;
 
 const MovieItem = styled.li`
-  width: 23%;
+  width: 26%;
   margin-bottom: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -26,7 +26,7 @@ const MovieImage = styled.img`
   transition: opacity 0.3s ease-in-out;
 
   &:hover {
-    opacity: 0.8;
+    opacity: 0.6;
   }
 `;
 
@@ -64,9 +64,11 @@ const MovieCard: React.FC = () => {
     const [totalPages, setTotalPages] = useState(0);
     const containerRef = useRef<HTMLDivElement | null>(null);
     const navigate = useNavigate()
-    const api_key = "CZRR6PC-ZA9MW48-Q6F6JXF-ZD8KGT9";
+
+    
+    const api_key = "FRX0BNV-6WDMY6Y-GBK5ZBN-V61MRSJ";
     const api_url = (page: number) =>
-        `https://api.kinopoisk.dev/v1.4/movie?page=${page}&limit=4&selectFields=id&selectFields=name&selectFields=enName&selectFields=alternativeName&selectFields=names&selectFields=description&selectFields=shortDescription&selectFields=slogan&selectFields=year&selectFields=releaseYears&selectFields=rating&selectFields=ratingMpaa&selectFields=ageRating&selectFields=movieLength&selectFields=poster&selectFields=videos&selectFields=top250&notNullFields=description&notNullFields=rating.kp&notNullFields=rating.filmCritics&notNullFields=rating.await&notNullFields=poster.url&sortField=id&sortType=1&type=movie&status=announced&status=completed&status=filming&status=post-production&status=pre-production`;      
+        `https://api.kinopoisk.dev/v1.4/movie?page=${page}&limit=3&selectFields=id&selectFields=name&selectFields=enName&selectFields=alternativeName&selectFields=names&selectFields=description&selectFields=shortDescription&selectFields=slogan&selectFields=year&selectFields=releaseYears&selectFields=rating&selectFields=ratingMpaa&selectFields=ageRating&selectFields=movieLength&selectFields=poster&selectFields=videos&selectFields=top250&notNullFields=description&notNullFields=rating.kp&notNullFields=rating.filmCritics&notNullFields=rating.await&notNullFields=poster.url&sortField=id&sortType=1&type=movie&status=announced&status=completed&status=filming&status=post-production&status=pre-production`;
     async function getMovies(url: string | URL | Request) {
       try {
         const resp = await fetch(url, {

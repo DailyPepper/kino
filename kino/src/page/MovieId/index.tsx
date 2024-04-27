@@ -4,32 +4,47 @@ import styled from "styled-components";
 import { Movie } from "../../components/MovieCard/movie.interface";
 
 const Container = styled.div`
-    padding: 120px 35px 60px 35px;
+    padding: 120px 90px 60px 90px;
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-around;
+    gap: 65px;
 `;
 const MovieImage = styled.img`
-  max-width: 400px;
+  width: 450px;
+  height: 600px;
   border-radius: 5px;
 `;
 
 const MovieInfo = styled.div`
-  margin-top: 20px;
-  text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+
+    .span{
+        display: flex;
+        gap: 30px;
+    }
 `;
 
-const MovieTitle = styled.h2`
+const MovieTitle = styled.h2<{size?: number}>`
+  font-size: ${({size}) => ( size ? '18px' : '22px' )};
   font-size: 24px;
   margin-bottom: 10px;
 `;
+const MovieDescription = styled.p`
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-align: justify;
+`
 
 
 const MovieId: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [movie, setMovie] = useState<Movie | null>(null);
   
-    const api_key = "CZRR6PC-ZA9MW48-Q6F6JXF-ZD8KGT9";
+    const api_key = "FRX0BNV-6WDMY6Y-GBK5ZBN-V61MRSJ";
     const api_url = `https://api.kinopoisk.dev/v1.4/movie/${id}`;
   
     useEffect(() => {
@@ -64,9 +79,14 @@ const MovieId: React.FC = () => {
       <Container>
         <MovieImage src={movie.poster?.url || "placeholder.jpg"} alt={movie.name} />
         <MovieInfo>
-            <MovieTitle>{movie.name}</MovieTitle>
-            <MovieTitle>{movie.description}</MovieTitle>
-            <MovieTitle>{movie.name}</MovieTitle>
+            <span className="span">
+                <MovieTitle size={25}>{movie.rating.await}</MovieTitle> 
+                <MovieTitle>{movie.name}</MovieTitle>  
+            </span>
+            <MovieDescription>Описание: {movie.description}</MovieDescription>
+            <MovieDescription>Длина фильма: {movie.movieLength}</MovieDescription>
+            <MovieDescription>Выход: {movie.year}</MovieDescription>
+            <MovieDescription>Релиз: {movie.releaseYear}</MovieDescription>
         </MovieInfo>
       </Container>
     );

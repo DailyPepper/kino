@@ -1,5 +1,9 @@
 
 export interface Movie {
+  videos: string;
+  releaseYear: number;
+  year: number;
+  movieLength: string;
   description: string;
   rating: {
     await: string
